@@ -13,20 +13,33 @@
   when: ansible_pkg_mgr == 'apt'
 
 - name: "Setup | yum | ensure autofs's package(s) present"
-  yum: name="{{ item }}"
+  yum:
+    state: present
+    name: "{{ packages }}"
+    update_cache: yes
+  vars:
+    packages: "{{ autofs_pkgs[ ansible_system ] }}"
   with_items: "{{ autofs_pkgs[ ansible_system ] }}"
   when: ansible_pkg_mgr == 'yum'
 
 
 - name: "Setup | zyp | ensure autofs's package(s) present"
-  zypper: name="{{ item }}"
-  with_items: "{{ autofs_pkgs[ ansible_system ] }}"
+  zypper:
+    state: present
+    name: "{{ packages }}"
+    update_cache: yes
+  vars:
+    packages: "{{ autofs_pkgs[ ansible_system ] }}"
   when: ansible_pkg_mgr == 'zypper'
 
 
 - name: "Setup | dnf | ensure autofs's package(s) present"
-  dnf: name="{{ item }}"
-  with_items: "{{ autofs_pkgs[ ansible_system ] }}"
+  dnf:
+    state: present
+    name: "{{ packages }}"
+    update_cache: yes
+  vars:
+    packages: "{{ autofs_pkgs[ ansible_system ] }}"
   when: ansible_pkg_mgr == 'dnf'
 
 
